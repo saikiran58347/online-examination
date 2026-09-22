@@ -3,40 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Online Examination System</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="app">
 
-        <h1>Online Examination System</h1>
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                🎓 ExamPro
+            </div>
 
-        <div id="login-section">
-            <h2>Student Login</h2>
-            <p>Enter your name to access the examination.</p>
+            <div class="header-title">
+                Online Examination System
+            </div>
+        </header>
 
-            <input type="text" id="studentName" placeholder="Enter your name">
 
-            <button onclick="startExam()">Start Exam</button>
-        </div>
+        <!-- Login Section -->
+        <section id="login-section" class="login-card">
 
-        <div id="exam-section" class="hidden">
+            <div class="login-icon">📝</div>
 
-            <h2>Online Examination</h2>
-            <p>Answer all questions carefully before submitting the exam.</p>
-            <p id="welcome"></p>
+            <h1>Welcome to ExamPro</h1>
 
+            <p class="subtitle">
+                Test your knowledge with our online examination.
+            </p>
+
+            <div class="info-box">
+
+                <div>
+                    <strong>📝 10</strong>
+                    <span>Questions</span>
+                </div>
+
+                <div>
+                    <strong>⏱️ 10</strong>
+                    <span>Minutes</span>
+                </div>
+
+                <div>
+                    <strong>🎯 60%</strong>
+                    <span>Pass Mark</span>
+                </div>
+
+            </div>
+
+            <label for="studentName">Student Name</label>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your name"
+                autocomplete="off"
+            >
+
+            <button class="primary-btn" onclick="startExam()">
+                Start Examination →
+            </button>
+
+            <p class="login-note">
+                Please make sure you have a stable connection before starting.
+            </p>
+
+        </section>
+
+
+        <!-- Exam Section -->
+        <section id="exam-section" class="exam-section hidden">
+
+            <!-- Exam Top Bar -->
+            <div class="exam-top">
+
+                <div>
+                    <span class="small-label">Student</span>
+                    <strong id="welcome"></strong>
+                </div>
+
+                <div class="timer-box">
+                    <span>⏱️ Time Left</span>
+                    <strong id="timer">10:00</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Progress -->
+            <div class="progress-area">
+
+                <div class="progress-info">
+                    <span id="question-number">
+                        Question 1 of 10
+                    </span>
+
+                    <span id="progress-percent">
+                        0%
+                    </span>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="progress"></div>
+                </div>
+
+            </div>
+
+
+            <!-- Question -->
             <div id="question-container"></div>
 
-            <button onclick="submitExam()">Submit Exam</button>
 
-            <h2 id="result"></h2>
+            <!-- Navigation -->
+            <div class="navigation">
 
-        </div>
+                <button
+                    id="previous-btn"
+                    class="secondary-btn"
+                    onclick="previousQuestion()"
+                >
+                    ← Previous
+                </button>
+
+                <button
+                    id="next-btn"
+                    class="primary-btn"
+                    onclick="nextQuestion()"
+                >
+                    Next →
+                </button>
+
+                <button
+                    id="submit-btn"
+                    class="submit-btn hidden"
+                    onclick="submitExam()"
+                >
+                    Submit Exam ✓
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Result Section -->
+        <section id="result-section" class="result-card hidden">
+
+            <div id="result-icon" class="result-icon">
+                🏆
+            </div>
+
+            <h1 id="result-title">
+                Examination Completed!
+            </h1>
+
+            <p id="result-message"></p>
+
+
+            <div class="score-circle">
+
+                <span id="final-score">
+                    0
+                </span>
+
+                <small>
+                    / 10
+                </small>
+
+            </div>
+
+
+            <div class="result-details">
+
+                <div>
+                    <strong id="percentage">0%</strong>
+                    <span>Percentage</span>
+                </div>
+
+                <div>
+                    <strong id="correct-count">0</strong>
+                    <span>Correct</span>
+                </div>
+
+                <div>
+                    <strong id="wrong-count">0</strong>
+                    <span>Wrong</span>
+                </div>
+
+            </div>
+
+
+            <div id="answer-review" class="answer-review"></div>
+
+
+            <button
+                class="primary-btn restart-btn"
+                onclick="restartExam()"
+            >
+                🔄 Take Exam Again
+            </button>
+
+        </section>
 
     </div>
+
+
+    <footer>
+        <p>© 2026 ExamPro • Online Examination System</p>
+    </footer>
+
 
     <script src="script.js"></script>
 
