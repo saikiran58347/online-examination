@@ -35,7 +35,6 @@ const questions = [
     answer: "git push"
 }
 ];
-];
 
 function startExam() {
 
