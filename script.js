@@ -19,11 +19,22 @@ const questions = [
         options: ["git start", "git status", "git check", "git verify"],
         answer: "git status"
     },
-    {
-        question: "Which Git command creates a commit?",
-        options: ["git save", "git commit", "git push", "git create"],
-        answer: "git commit"
-    }
+{
+    question: "Which command is used to check the status of a Git repository?",
+    options: ["git start", "git status", "git check", "git verify"],
+    answer: "git status"
+},
+{
+    question: "Which Git command creates a commit?",
+    options: ["git save", "git commit", "git push", "git create"],
+    answer: "git commit"
+},
+{
+    question: "Which command uploads commits to GitHub?",
+    options: ["git push", "git pull", "git clone", "git fetch"],
+    answer: "git push"
+}
+];
 ];
 
 function startExam() {
