@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Examination System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Online Examination System</h1>
+
+        <div id="login-section">
+            <h2>Student Login</h2>
+
+            <input type="text" id="studentName" placeholder="Enter your name">
+
+            <button onclick="startExam()">Start Exam</button>
+        </div>
+
+        <div id="exam-section" class="hidden">
+
+            <h2>Online Examination</h2>
+
+            <p id="welcome"></p>
+
+            <div id="question-container"></div>
+
+            <button onclick="submitExam()">Submit Exam</button>
+
+            <h2 id="result"></h2>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
