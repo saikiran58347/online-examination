@@ -88,6 +88,7 @@ function loadQuestions() {
 function submitExam() {
 
     let score = 0;
+    let totalMarks = questions.length;
 
     questions.forEach((q, index) => {
 
