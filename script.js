@@ -99,7 +99,7 @@ function submitExam() {
                 `input[name="question${index}"]:checked`
             );
 
-        if (selected && selected.value !== q.answer) {
+        if (selected && selected.value === q.answer) {
             score++;
         }
     });
