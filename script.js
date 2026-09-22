@@ -88,7 +88,8 @@ function loadQuestions() {
 function submitExam() {
 
     let score = 0;
-
+    
+    let passingMarks = 3;
     questions.forEach((q, index) => {
 
         const selected =
