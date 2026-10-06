@@ -520,3 +520,18 @@ function restartExam() {
     document.getElementById("timer")
         .textContent = "10:00";
 }
+function showExamResult() {
+    let score = 8;
+    let totalQuestions = 10;
+
+    let percentage = (score / totalQuestions) * 100;
+
+    alert(
+        "Exam Completed!\n" +
+        "Score: " + score + "/" + totalQuestions + "\n" +
+        "Percentage: " + percentage + "%"
+    );
+}
+function displayExamStatus() {
+    alert("Exam is completed successfully!");
+}
