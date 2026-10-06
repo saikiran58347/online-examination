@@ -59,17 +59,58 @@ let timerInterval;
 let examSubmitted = false;
 
 
-/* START EXAM */
+/* LOGIN */
 
-function startExam() {
+// Demo credentials for the frontend-only version.
+// These will be replaced by backend authentication later.
+const demoUser = {
+    studentId: "student01",
+    password: "Exam@123",
+    name: "Student 01"
+};
 
-    const studentName =
-        document.getElementById("studentName").value.trim();
+function login(event) {
 
-    if (studentName === "") {
-        alert("Please enter your name.");
-        return;
+    event.preventDefault();
+
+    const studentId =
+        document.getElementById("studentId").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("login-error");
+
+    if (studentId === demoUser.studentId && password === demoUser.password) {
+
+        sessionStorage.setItem("examLoggedIn", "true");
+        sessionStorage.setItem("studentName", demoUser.name);
+
+        error.classList.add("hidden");
+        startExam(demoUser.name);
+
+    } else {
+
+        error.textContent =
+            "Invalid Student ID or Password. Please check your credentials.";
+
+        error.classList.remove("hidden");
     }
+}
+
+function togglePassword() {
+
+    const passwordInput =
+        document.getElementById("password");
+
+    passwordInput.type =
+        passwordInput.type === "password"
+            ? "text"
+            : "password";
+}
+
+function startExam(studentName) {
 
     document.getElementById("login-section")
         .classList.add("hidden");
@@ -87,6 +128,26 @@ function startExam() {
 
     startTimer();
     showQuestion();
+}
+
+function logout() {
+
+    clearInterval(timerInterval);
+    sessionStorage.removeItem("examLoggedIn");
+    sessionStorage.removeItem("studentName");
+
+    document.getElementById("exam-section")
+        .classList.add("hidden");
+
+    document.getElementById("result-section")
+        .classList.add("hidden");
+
+    document.getElementById("login-section")
+        .classList.remove("hidden");
+
+    document.getElementById("login-form").reset();
+    document.getElementById("login-error")
+        .classList.add("hidden");
 }
 
 
@@ -451,8 +512,10 @@ function restartExam() {
     document.getElementById("login-section")
         .classList.remove("hidden");
 
-    document.getElementById("studentName")
-        .value = "";
+    document.getElementById("login-form").reset();
+
+    document.getElementById("login-error")
+        .classList.add("hidden");
 
     document.getElementById("timer")
         .textContent = "10:00";
