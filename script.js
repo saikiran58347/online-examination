@@ -520,3 +520,6 @@ function restartExam() {
     document.getElementById("timer")
         .textContent = "10:00";
 }
+function showExamResult() {
+    alert("Exam completed!");
+}
