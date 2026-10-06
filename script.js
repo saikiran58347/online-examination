@@ -1,353 +1,906 @@
+/* =========================================================
+   ONLINE EXAMINATION SYSTEM
+   Pure HTML + CSS + JavaScript
+   Works Offline
+   ========================================================= */
+
+
+/* =========================================================
+   DEMO LOGIN
+   ========================================================= */
+
+const DEMO_STUDENT_ID = "student01";
+const DEMO_PASSWORD = "Exam@123";
+
+
+/* =========================================================
+   EXAM QUESTIONS
+   ========================================================= */
+
 const questions = [
+
     {
-        question: "Which language is used to create the structure of a web page?",
-        options: ["HTML", "CSS", "Java", "Python"],
-        answer: "HTML"
+        question: "Which data structure follows the FIFO principle?",
+        options: [
+            "Stack",
+            "Queue",
+            "Tree",
+            "Graph"
+        ],
+        answer: 1
     },
+
     {
-        question: "Which language is mainly used for styling web pages?",
-        options: ["HTML", "CSS", "JavaScript", "SQL"],
-        answer: "CSS"
+        question: "Which keyword is used to declare a constant in JavaScript?",
+        options: [
+            "var",
+            "let",
+            "const",
+            "static"
+        ],
+        answer: 2
     },
-    {
-        question: "Which language is used to add interactivity to web pages?",
-        options: ["HTML", "CSS", "JavaScript", "XML"],
-        answer: "JavaScript"
-    },
-    {
-        question: "Which command is used to check the status of a Git repository?",
-        options: ["git start", "git status", "git check", "git verify"],
-        answer: "git status"
-    },
-    {
-        question: "Which Git command creates a commit?",
-        options: ["git save", "git commit", "git push", "git create"],
-        answer: "git commit"
-    },
-    {
-        question: "Which command uploads commits to GitHub?",
-        options: ["git push", "git pull", "git clone", "git fetch"],
-        answer: "git push"
-    },
-    {
-        question: "Which Git command downloads changes from a remote repository?",
-        options: ["git push", "git pull", "git save", "git upload"],
-        answer: "git pull"
-    },
+
     {
         question: "Which HTML tag is used to create a hyperlink?",
-        options: ["<link>", "<a>", "<href>", "<url>"],
-        answer: "<a>"
+        options: [
+            "<link>",
+            "<a>",
+            "<href>",
+            "<url>"
+        ],
+        answer: 1
     },
+
     {
-        question: "Which CSS property is used to change text color?",
-        options: ["font-style", "text-color", "color", "background"],
-        answer: "color"
+        question: "Which CSS property is used to change the text color?",
+        options: [
+            "font-color",
+            "text-color",
+            "color",
+            "foreground"
+        ],
+        answer: 2
     },
+
     {
-        question: "Which JavaScript keyword is used to declare a variable?",
-        options: ["variable", "let", "define", "declare"],
-        answer: "let"
+        question: "Which sorting algorithm repeatedly selects the minimum element?",
+        options: [
+            "Merge Sort",
+            "Quick Sort",
+            "Selection Sort",
+            "Bubble Sort"
+        ],
+        answer: 2
+    },
+
+    {
+        question: "What does CPU stand for?",
+        options: [
+            "Central Processing Unit",
+            "Computer Personal Unit",
+            "Central Program Utility",
+            "Computer Processing Utility"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Which protocol is commonly used to access web pages?",
+        options: [
+            "FTP",
+            "HTTP",
+            "SMTP",
+            "SSH"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Which symbol is used for a single-line comment in JavaScript?",
+        options: [
+            "//",
+            "##",
+            "<!--",
+            "**"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Which method converts a JavaScript object into a JSON string?",
+        options: [
+            "JSON.parse()",
+            "JSON.stringify()",
+            "JSON.convert()",
+            "JSON.object()"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "What is the main purpose of an operating system?",
+        options: [
+            "Only to browse the internet",
+            "Only to write programs",
+            "Manage computer hardware and software resources",
+            "Only to store files"
+        ],
+        answer: 2
     }
+
 ];
 
 
+/* =========================================================
+   APPLICATION STATE
+   ========================================================= */
+
 let currentQuestion = 0;
+
 let userAnswers = new Array(questions.length).fill(null);
-let timeLeft = 10 * 60;
-let timerInterval;
+
+let timeRemaining = 5 * 60;
+
+let timerInterval = null;
+
 let examSubmitted = false;
 
+let loggedInStudent = "";
 
-/* LOGIN */
 
-// Demo credentials for the frontend-only version.
-// These will be replaced by backend authentication later.
-const demoUser = {
-    studentId: "student01",
-    password: "Exam@123",
-    name: "Student 01"
-};
+/* =========================================================
+   PAGE ELEMENTS
+   ========================================================= */
 
-function login(event) {
+const loginPage =
+    document.getElementById("loginPage");
+
+const dashboardPage =
+    document.getElementById("dashboardPage");
+
+const examPage =
+    document.getElementById("examPage");
+
+const resultPage =
+    document.getElementById("resultPage");
+
+const reviewPage =
+    document.getElementById("reviewPage");
+
+
+/* =========================================================
+   LOGIN ELEMENTS
+   ========================================================= */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const studentIdInput =
+    document.getElementById("studentId");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginError =
+    document.getElementById("loginError");
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
+
+/* =========================================================
+   DASHBOARD ELEMENTS
+   ========================================================= */
+
+const dashboardStudent =
+    document.getElementById("dashboardStudent");
+
+const startExamButton =
+    document.getElementById("startExamButton");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+
+/* =========================================================
+   EXAM ELEMENTS
+   ========================================================= */
+
+const timerElement =
+    document.getElementById("timer");
+
+const questionCounter =
+    document.getElementById("questionCounter");
+
+const currentQuestionNumber =
+    document.getElementById("currentQuestionNumber");
+
+const questionText =
+    document.getElementById("questionText");
+
+const optionsContainer =
+    document.getElementById("optionsContainer");
+
+const previousButton =
+    document.getElementById("previousButton");
+
+const nextButton =
+    document.getElementById("nextButton");
+
+const submitExamButton =
+    document.getElementById("submitExamButton");
+
+const questionNumbers =
+    document.getElementById("questionNumbers");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressText =
+    document.getElementById("progressText");
+
+
+/* =========================================================
+   RESULT ELEMENTS
+   ========================================================= */
+
+const resultStudent =
+    document.getElementById("resultStudent");
+
+const scoreValue =
+    document.getElementById("scoreValue");
+
+const correctAnswers =
+    document.getElementById("correctAnswers");
+
+const wrongAnswers =
+    document.getElementById("wrongAnswers");
+
+const percentage =
+    document.getElementById("percentage");
+
+const resultMessage =
+    document.getElementById("resultMessage");
+
+const resultIcon =
+    document.getElementById("resultIcon");
+
+const reviewButton =
+    document.getElementById("reviewButton");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+
+/* =========================================================
+   REVIEW ELEMENTS
+   ========================================================= */
+
+const reviewContainer =
+    document.getElementById("reviewContainer");
+
+const reviewBackButton =
+    document.getElementById("reviewBackButton");
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+function showPage(page) {
+
+    const pages = [
+        loginPage,
+        dashboardPage,
+        examPage,
+        resultPage,
+        reviewPage
+    ];
+
+    pages.forEach(function(currentPage) {
+
+        currentPage.classList.remove("active");
+
+    });
+
+    page.classList.add("active");
+
+    window.scrollTo(0, 0);
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+loginForm.addEventListener("submit", function(event) {
 
     event.preventDefault();
 
     const studentId =
-        document.getElementById("studentId").value.trim();
+        studentIdInput.value.trim();
 
     const password =
-        document.getElementById("password").value;
+        passwordInput.value;
 
-    const error =
-        document.getElementById("login-error");
+    if (
+        studentId === DEMO_STUDENT_ID &&
+        password === DEMO_PASSWORD
+    ) {
 
-    if (studentId === demoUser.studentId && password === demoUser.password) {
+        loggedInStudent = studentId;
 
-        sessionStorage.setItem("examLoggedIn", "true");
-        sessionStorage.setItem("studentName", demoUser.name);
+        sessionStorage.setItem(
+            "loggedInStudent",
+            loggedInStudent
+        );
 
-        error.classList.add("hidden");
-        startExam(demoUser.name);
+        loginError.textContent = "";
+
+        dashboardStudent.textContent =
+            loggedInStudent;
+
+        showPage(dashboardPage);
 
     } else {
 
-        error.textContent =
-            "Invalid Student ID or Password. Please check your credentials.";
+        loginError.textContent =
+            "Invalid Student ID or Password.";
 
-        error.classList.remove("hidden");
     }
-}
 
-function togglePassword() {
+});
 
-    const passwordInput =
-        document.getElementById("password");
 
-    passwordInput.type =
-        passwordInput.type === "password"
-            ? "text"
-            : "password";
-}
+/* =========================================================
+   SHOW / HIDE PASSWORD
+   ========================================================= */
 
-function startExam(studentName) {
+togglePassword.addEventListener(
+    "click",
+    function() {
 
-    document.getElementById("login-section")
-        .classList.add("hidden");
+        if (passwordInput.type === "password") {
 
-    document.getElementById("exam-section")
-        .classList.remove("hidden");
+            passwordInput.type = "text";
 
-    document.getElementById("welcome").textContent =
-        studentName;
+            togglePassword.textContent = "🙈";
+
+        } else {
+
+            passwordInput.type = "password";
+
+            togglePassword.textContent = "👁";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+logoutButton.addEventListener(
+    "click",
+    function() {
+
+        const confirmLogout =
+            confirm("Are you sure you want to logout?");
+
+        if (!confirmLogout) {
+            return;
+        }
+
+        stopTimer();
+
+        sessionStorage.removeItem(
+            "loggedInStudent"
+        );
+
+        loggedInStudent = "";
+
+        studentIdInput.value = "";
+
+        passwordInput.value = "";
+
+        loginError.textContent = "";
+
+        resetExam();
+
+        showPage(loginPage);
+
+    }
+);
+
+
+/* =========================================================
+   START EXAM
+   ========================================================= */
+
+startExamButton.addEventListener(
+    "click",
+    function() {
+
+        const confirmed =
+            confirm(
+                "Start the examination now?\n\n" +
+                "You will have 5 minutes to complete it."
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        startExam();
+
+    }
+);
+
+
+/* =========================================================
+   START EXAM FUNCTION
+   ========================================================= */
+
+function startExam() {
 
     currentQuestion = 0;
-    userAnswers = new Array(questions.length).fill(null);
-    timeLeft = 10 * 60;
+
+    userAnswers =
+        new Array(questions.length).fill(null);
+
+    timeRemaining = 5 * 60;
+
     examSubmitted = false;
 
-    startTimer();
-    showQuestion();
-}
+    showPage(examPage);
 
-function logout() {
+    renderQuestion();
 
-    clearInterval(timerInterval);
-    sessionStorage.removeItem("examLoggedIn");
-    sessionStorage.removeItem("studentName");
-
-    document.getElementById("exam-section")
-        .classList.add("hidden");
-
-    document.getElementById("result-section")
-        .classList.add("hidden");
-
-    document.getElementById("login-section")
-        .classList.remove("hidden");
-
-    document.getElementById("login-form").reset();
-    document.getElementById("login-error")
-        .classList.add("hidden");
-}
-
-
-/* TIMER */
-
-function startTimer() {
-
-    clearInterval(timerInterval);
+    renderQuestionNavigation();
 
     updateTimer();
 
-    timerInterval = setInterval(() => {
+    startTimer();
 
-        timeLeft--;
+}
 
-        updateTimer();
 
-        if (timeLeft <= 0) {
+/* =========================================================
+   TIMER
+   ========================================================= */
 
-            clearInterval(timerInterval);
+function startTimer() {
 
-            alert("Time is over! Your exam will be submitted.");
+    stopTimer();
 
-            submitExam();
-        }
+    timerInterval =
+        setInterval(
+            function() {
 
-    }, 1000);
+                if (examSubmitted) {
+                    return;
+                }
+
+                timeRemaining--;
+
+                updateTimer();
+
+                if (timeRemaining <= 0) {
+
+                    stopTimer();
+
+                    alert(
+                        "Time is over. Your examination will be submitted automatically."
+                    );
+
+                    submitExam(true);
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function stopTimer() {
+
+    if (timerInterval !== null) {
+
+        clearInterval(timerInterval);
+
+        timerInterval = null;
+
+    }
+
 }
 
 
 function updateTimer() {
 
     const minutes =
-        Math.floor(timeLeft / 60);
+        Math.floor(timeRemaining / 60);
 
     const seconds =
-        timeLeft % 60;
+        timeRemaining % 60;
 
-    document.getElementById("timer").textContent =
-        String(minutes).padStart(2, "0") +
-        ":" +
+    const formattedMinutes =
+        String(minutes).padStart(2, "0");
+
+    const formattedSeconds =
         String(seconds).padStart(2, "0");
 
-    if (timeLeft <= 60) {
+    timerElement.textContent =
+        formattedMinutes + ":" +
+        formattedSeconds;
 
-        document.getElementById("timer").style.color =
-            "#dc2626";
+
+    if (timeRemaining <= 60) {
+
+        timerElement.parentElement.classList.add(
+            "timer-warning"
+        );
+
+    } else {
+
+        timerElement.parentElement.classList.remove(
+            "timer-warning"
+        );
+
     }
+
 }
 
 
-/* SHOW QUESTION */
+/* =========================================================
+   RENDER QUESTION
+   ========================================================= */
 
-function showQuestion() {
+function renderQuestion() {
 
     const question =
         questions[currentQuestion];
 
-    const container =
-        document.getElementById("question-container");
-
-    let optionsHTML = "";
-
-    question.options.forEach(option => {
-
-        const selected =
-            userAnswers[currentQuestion] === option;
-
-        optionsHTML += `
-            <label class="option ${selected ? "selected" : ""}">
-                <input
-                    type="radio"
-                    name="answer"
-                    value="${option}"
-                    ${selected ? "checked" : ""}
-                    onchange="selectAnswer('${option.replace(/'/g, "\\'")}')"
-                >
-                ${option}
-            </label>
-        `;
-    });
-
-
-    container.innerHTML = `
-        <div class="question-card">
-
-            <h2>
-                ${currentQuestion + 1}.
-                ${question.question}
-            </h2>
-
-            ${optionsHTML}
-
-        </div>
-    `;
-
-
-    updateProgress();
-    updateNavigation();
-}
-
-
-/* SELECT ANSWER */
-
-function selectAnswer(answer) {
-
-    userAnswers[currentQuestion] = answer;
-
-    showQuestion();
-}
-
-
-/* PROGRESS */
-
-function updateProgress() {
-
-    const total =
+    questionCounter.textContent =
+        "Question " +
+        (currentQuestion + 1) +
+        " of " +
         questions.length;
 
-    const current =
+    currentQuestionNumber.textContent =
         currentQuestion + 1;
 
-    const percentage =
-        Math.round((current / total) * 100);
+    questionText.textContent =
+        question.question;
 
-    document.getElementById("question-number")
-        .textContent =
-        `Question ${current} of ${total}`;
-
-    document.getElementById("progress-percent")
-        .textContent =
-        `${percentage}%`;
-
-    document.getElementById("progress")
-        .style.width =
-        `${percentage}%`;
-}
+    optionsContainer.innerHTML = "";
 
 
-/* NAVIGATION */
+    question.options.forEach(
+        function(option, index) {
 
-function updateNavigation() {
+            const optionDiv =
+                document.createElement("div");
 
-    const previous =
-        document.getElementById("previous-btn");
-
-    const next =
-        document.getElementById("next-btn");
-
-    const submit =
-        document.getElementById("submit-btn");
+            optionDiv.className = "option";
 
 
-    if (currentQuestion === 0) {
-        previous.classList.add("hidden");
-    } else {
-        previous.classList.remove("hidden");
-    }
+            if (
+                userAnswers[currentQuestion] === index
+            ) {
 
+                optionDiv.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            const radio =
+                document.createElement("input");
+
+            radio.type = "radio";
+
+            radio.name = "answer";
+
+            radio.value = index;
+
+            radio.id =
+                "option-" + index;
+
+            radio.checked =
+                userAnswers[currentQuestion] === index;
+
+
+            const label =
+                document.createElement("label");
+
+            label.htmlFor =
+                "option-" + index;
+
+            label.textContent =
+                option;
+
+
+            radio.addEventListener(
+                "change",
+                function() {
+
+                    userAnswers[currentQuestion] =
+                        index;
+
+                    updateOptionStyles();
+
+                    renderQuestionNavigation();
+
+                    updateProgress();
+
+                }
+            );
+
+
+            optionDiv.appendChild(radio);
+
+            optionDiv.appendChild(label);
+
+            optionsContainer.appendChild(optionDiv);
+
+        }
+    );
+
+
+    previousButton.disabled =
+        currentQuestion === 0;
 
     if (currentQuestion === questions.length - 1) {
 
-        next.classList.add("hidden");
-
-        submit.classList.remove("hidden");
+        nextButton.textContent =
+            "Finish →";
 
     } else {
 
-        next.classList.remove("hidden");
+        nextButton.textContent =
+            "Next →";
 
-        submit.classList.add("hidden");
     }
+
+
+    updateProgress();
+
+    renderQuestionNavigation();
+
 }
 
 
-function nextQuestion() {
+/* =========================================================
+   OPTION VISUAL STATE
+   ========================================================= */
 
-    if (currentQuestion < questions.length - 1) {
+function updateOptionStyles() {
+
+    const options =
+        document.querySelectorAll(".option");
+
+    options.forEach(
+        function(option, index) {
+
+            option.classList.remove(
+                "selected"
+            );
+
+            if (
+                userAnswers[currentQuestion] === index
+            ) {
+
+                option.classList.add(
+                    "selected"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NEXT BUTTON
+   ========================================================= */
+
+nextButton.addEventListener(
+    "click",
+    function() {
+
+        if (
+            currentQuestion ===
+            questions.length - 1
+        ) {
+
+            const confirmSubmit =
+                confirm(
+                    "You are on the last question.\n\n" +
+                    "Submit your examination?"
+                );
+
+            if (confirmSubmit) {
+
+                submitExam(false);
+
+            }
+
+            return;
+
+        }
+
 
         currentQuestion++;
 
-        showQuestion();
+        renderQuestion();
+
     }
+);
+
+
+/* =========================================================
+   PREVIOUS BUTTON
+   ========================================================= */
+
+previousButton.addEventListener(
+    "click",
+    function() {
+
+        if (currentQuestion > 0) {
+
+            currentQuestion--;
+
+            renderQuestion();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   QUESTION NAVIGATION
+   ========================================================= */
+
+function renderQuestionNavigation() {
+
+    questionNumbers.innerHTML = "";
+
+
+    questions.forEach(
+        function(question, index) {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "question-number-button";
+
+            button.textContent =
+                index + 1;
+
+
+            if (index === currentQuestion) {
+
+                button.classList.add(
+                    "current"
+                );
+
+            }
+
+
+            if (userAnswers[index] !== null) {
+
+                button.classList.add(
+                    "answered"
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    currentQuestion = index;
+
+                    renderQuestion();
+
+                }
+            );
+
+
+            questionNumbers.appendChild(button);
+
+        }
+    );
+
 }
 
 
-function previousQuestion() {
+/* =========================================================
+   PROGRESS
+   ========================================================= */
 
-    if (currentQuestion > 0) {
+function updateProgress() {
 
-        currentQuestion--;
+    const answered =
+        userAnswers.filter(
+            function(answer) {
+                return answer !== null;
+            }
+        ).length;
 
-        showQuestion();
-    }
+    const progress =
+        Math.round(
+            (answered / questions.length) * 100
+        );
+
+    progressBar.style.width =
+        progress + "%";
+
+    progressText.textContent =
+        progress + "%";
+
 }
 
 
-/* SUBMIT */
+/* =========================================================
+   SUBMIT EXAM
+   ========================================================= */
 
-function submitExam() {
+submitExamButton.addEventListener(
+    "click",
+    function() {
+
+        const unanswered =
+            userAnswers.filter(
+                function(answer) {
+                    return answer === null;
+                }
+            ).length;
+
+
+        let message =
+            "Are you sure you want to submit the examination?";
+
+
+        if (unanswered > 0) {
+
+            message +=
+                "\n\nYou have " +
+                unanswered +
+                " unanswered question(s).";
+
+        }
+
+
+        const confirmed =
+            confirm(message);
+
+        if (confirmed) {
+
+            submitExam(false);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CALCULATE RESULT
+   ========================================================= */
+
+function submitExam(autoSubmitted) {
 
     if (examSubmitted) {
         return;
@@ -355,190 +908,303 @@ function submitExam() {
 
     examSubmitted = true;
 
-    clearInterval(timerInterval);
+    stopTimer();
+
 
     let score = 0;
 
-    let totalMarks = questions.length;
 
-    let passingMarks = Math.ceil(totalMarks * 0.6);
+    questions.forEach(
+        function(question, index) {
 
+            if (
+                userAnswers[index] ===
+                question.answer
+            ) {
 
-    questions.forEach((question, index) => {
+                score++;
 
-        if (
-            userAnswers[index] ===
-            question.answer
-        ) {
-            score++;
+            }
+
         }
+    );
 
-    });
 
+    const correct =
+        score;
 
     const wrong =
-        totalMarks - score;
-
-    const percentage =
-        Math.round((score / totalMarks) * 100);
-
-    const passed =
-        score >= passingMarks;
+        questions.length - correct;
 
 
-    document.getElementById("exam-section")
-        .classList.add("hidden");
-
-    document.getElementById("result-section")
-        .classList.remove("hidden");
-
-
-    document.getElementById("final-score")
-        .textContent = score;
-
-    document.getElementById("percentage")
-        .textContent = percentage + "%";
-
-    document.getElementById("correct-count")
-        .textContent = score;
-
-    document.getElementById("wrong-count")
-        .textContent = wrong;
+    const percentageValue =
+        Math.round(
+            (score / questions.length) * 100
+        );
 
 
-    if (passed) {
+    scoreValue.textContent =
+        score;
 
-        document.getElementById("result-icon")
-            .textContent = "🏆";
+    correctAnswers.textContent =
+        correct;
 
-        document.getElementById("result-title")
-            .textContent = "Congratulations!";
+    wrongAnswers.textContent =
+        wrong;
 
-        document.getElementById("result-message")
-            .textContent =
-            "You have successfully passed the examination.";
+    percentage.textContent =
+        percentageValue + "%";
+
+    resultStudent.textContent =
+        loggedInStudent;
+
+
+    if (percentageValue >= 80) {
+
+        resultIcon.textContent = "🏆";
+
+        resultMessage.textContent =
+            "Excellent performance!";
+
+    } else if (percentageValue >= 60) {
+
+        resultIcon.textContent = "🎉";
+
+        resultMessage.textContent =
+            "Good job! Keep improving.";
+
+    } else if (percentageValue >= 40) {
+
+        resultIcon.textContent = "👍";
+
+        resultMessage.textContent =
+            "You passed. Keep practicing.";
 
     } else {
 
-        document.getElementById("result-icon")
-            .textContent = "📚";
+        resultIcon.textContent = "📚";
 
-        document.getElementById("result-title")
-            .textContent = "Keep Practicing!";
+        resultMessage.textContent =
+            "More practice is needed.";
 
-        document.getElementById("result-message")
-            .textContent =
-            "You did not reach the passing mark. Review your answers and try again.";
     }
 
 
-    showAnswerReview();
+    showPage(resultPage);
+
 }
 
 
-/* ANSWER REVIEW */
+/* =========================================================
+   REVIEW ANSWERS
+   ========================================================= */
 
-function showAnswerReview() {
+reviewButton.addEventListener(
+    "click",
+    function() {
 
-    const review =
-        document.getElementById("answer-review");
+        renderReview();
 
-    review.innerHTML =
-        "<h3>Answer Review</h3><br>";
+        showPage(reviewPage);
 
-
-    questions.forEach((question, index) => {
-
-        const userAnswer =
-            userAnswers[index];
-
-        const correct =
-            userAnswer === question.answer;
+    }
+);
 
 
-        const item =
-            document.createElement("div");
+function renderReview() {
 
-        item.className =
-            "review-item " +
-            (correct
-                ? "review-correct"
-                : "review-wrong");
+    reviewContainer.innerHTML = "";
 
 
-        item.innerHTML = `
-            <strong>
-                ${index + 1}. ${question.question}
-            </strong>
+    questions.forEach(
+        function(question, index) {
 
-            <span>
-                Your answer:
-                ${userAnswer || "Not answered"}
-            </span>
+            const item =
+                document.createElement("div");
 
-            <br>
+            const isCorrect =
+                userAnswers[index] ===
+                question.answer;
 
-            <span>
-                Correct answer:
-                ${question.answer}
-            </span>
-        `;
+            item.className =
+                "review-item " +
+                (isCorrect ? "correct" : "wrong");
 
 
-        review.appendChild(item);
-    });
+            const questionElement =
+                document.createElement("div");
+
+            questionElement.className =
+                "review-question";
+
+            questionElement.textContent =
+                (index + 1) +
+                ". " +
+                question.question;
+
+
+            const selectedAnswer =
+                userAnswers[index];
+
+
+            const selectedElement =
+                document.createElement("div");
+
+            selectedElement.className =
+                "review-answer";
+
+
+            if (selectedAnswer === null) {
+
+                selectedElement.innerHTML =
+                    "Your answer: " +
+                    '<span class="not-answered">' +
+                    "Not answered" +
+                    "</span>";
+
+            } else {
+
+                if (isCorrect) {
+
+                    selectedElement.innerHTML =
+                        "Your answer: " +
+                        '<span class="correct-text">' +
+                        question.options[selectedAnswer] +
+                        " ✓</span>";
+
+                } else {
+
+                    selectedElement.innerHTML =
+                        "Your answer: " +
+                        '<span class="wrong-text">' +
+                        question.options[selectedAnswer] +
+                        " ✗</span>";
+
+                }
+
+            }
+
+
+            const correctElement =
+                document.createElement("div");
+
+            correctElement.className =
+                "review-answer";
+
+            correctElement.innerHTML =
+                "Correct answer: " +
+                '<span class="correct-text">' +
+                question.options[question.answer] +
+                "</span>";
+
+
+            item.appendChild(
+                questionElement
+            );
+
+            item.appendChild(
+                selectedElement
+            );
+
+            item.appendChild(
+                correctElement
+            );
+
+
+            reviewContainer.appendChild(item);
+
+        }
+    );
+
 }
 
 
-/* RESTART */
+/* =========================================================
+   BACK TO RESULT
+   ========================================================= */
 
-function restartExam() {
+reviewBackButton.addEventListener(
+    "click",
+    function() {
 
-    clearInterval(timerInterval);
+        showPage(resultPage);
+
+    }
+);
+
+
+/* =========================================================
+   TAKE EXAM AGAIN
+   ========================================================= */
+
+restartButton.addEventListener(
+    "click",
+    function() {
+
+        const confirmed =
+            confirm(
+                "Start a new examination?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        startExam();
+
+    }
+);
+
+
+/* =========================================================
+   RESET EXAM
+   ========================================================= */
+
+function resetExam() {
+
+    stopTimer();
 
     currentQuestion = 0;
 
     userAnswers =
         new Array(questions.length).fill(null);
 
-    timeLeft = 10 * 60;
+    timeRemaining = 5 * 60;
 
     examSubmitted = false;
 
-
-    document.getElementById("result-section")
-        .classList.add("hidden");
-
-    document.getElementById("login-section")
-        .classList.remove("hidden");
-
-    document.getElementById("login-form").reset();
-
-    document.getElementById("login-error")
-        .classList.add("hidden");
-
-    document.getElementById("timer")
-        .textContent = "10:00";
 }
-function showExamResult() {
 
-    let score = 8;
-    let totalQuestions = 10;
 
-    let percentage = (score / totalQuestions) * 100;
+/* =========================================================
+   RESTORE LOGIN SESSION
+   ========================================================= */
 
-    let resultMessage;
+window.addEventListener(
+    "load",
+    function() {
 
-    if (percentage >= 40) {
-        resultMessage = "Congratulations! You passed the exam.";
-    } else {
-        resultMessage = "You did not pass the exam. Try again.";
+        const savedStudent =
+            sessionStorage.getItem(
+                "loggedInStudent"
+            );
+
+
+        if (savedStudent) {
+
+            loggedInStudent =
+                savedStudent;
+
+            dashboardStudent.textContent =
+                loggedInStudent;
+
+            showPage(dashboardPage);
+
+        } else {
+
+            showPage(loginPage);
+
+        }
+
     }
-
-    alert(
-        "Exam Completed!\n" +
-        "Score: " + score + "/" + totalQuestions + "\n" +
-        "Percentage: " + percentage + "%\n" +
-        resultMessage
-    );
-}
+);

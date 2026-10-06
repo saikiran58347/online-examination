@@ -6,474 +6,545 @@
 
     <title>Online Examination System</title>
 
-    <link rel="style<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Online Examination System</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="app">
+    <!-- ================= LOGIN PAGE ================= -->
 
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                🎓 ExamPro
-            </div>
+    <section id="loginPage" class="page active">
 
-            <div class="header-title">
-                Online Examination System
-            </div>
-        </header>
+        <div class="login-container">
 
+            <div class="login-card">
 
-        <!-- Login Section -->
-        <section id="login-section" class="login-card">
+                <div class="logo">🎓</div>
 
-            <div class="login-icon">📝</div>
+                <h1>Online Examination</h1>
 
-            <h1>Welcome to ExamPro</h1>
+                <p class="subtitle">
+                    Secure Student Examination Portal
+                </p>
 
-            <p class="subtitle">
-                Test your knowledge with our online examination.
-            </p>
+                <form id="loginForm">
 
-            <div class="info-box">
+                    <div class="form-group">
 
-                <div>
-                    <strong>📝 10</strong>
-                    <span>Questions</span>
-                </div>
+                        <label for="studentId">
+                            Student ID
+                        </label>
 
-                <div>
-                    <strong>⏱️ 10</strong>
-                    <span>Minutes</span>
-                </div>
+                        <input
+                            type="text"
+                            id="studentId"
+                            placeholder="Enter Student ID"
+                            autocomplete="off"
+                            required
+                        >
 
-                <div>
-                    <strong>🎯 60%</strong>
-                    <span>Pass Mark</span>
-                </div>
+                    </div>
 
-            </div>
+                    <div class="form-group">
 
-            <form id="login-form" onsubmit="login(event)">
+                        <label for="password">
+                            Password
+                        </label>
 
-                <label for="studentId">Student ID</label>
+                        <div class="password-container">
 
-                <input
-                    type="text"
-                    id="studentId"
-                    placeholder="Enter your student ID"
-                    autocomplete="username"
-                    required
-                >
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter Password"
+                                required
+                            >
 
-                <label for="password">Password</label>
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="password-toggle"
+                            >
+                                👁
+                            </button>
 
-                <div class="password-wrapper">
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
+                        </div>
+
+                    </div>
+
+                    <p id="loginError" class="error-message"></p>
+
                     <button
-                        type="button"
-                        class="password-toggle"
-                        onclick="togglePassword()"
-                        aria-label="Show or hide password"
+                        type="submit"
+                        class="primary-button"
                     >
-                        👁️
+                        Login
                     </button>
-                </div>
 
-                <p id="login-error" class="login-error hidden"></p>
+                </form>
 
-                <button type="submit" class="primary-btn login-btn">
-                    Login & Start Examination →
-                </button>
+                <div class="demo-info">
 
-            </form>
+                    <strong>Demo Login</strong>
 
-            <div class="demo-credentials">
-                <strong>Demo Login</strong>
-                <span>Student ID: <b>student01</b></span>
-                <span>Password: <b>Exam@123</b></span>
-            </div>
+                    <p>
+                        Student ID:
+                        <span>student01</span>
+                    </p>
 
-            <p class="login-note">
-                Please make sure you have a stable connection before starting.
-            </p>
+                    <p>
+                        Password:
+                        <span>Exam@123</span>
+                    </p>
 
-        </section>
-
-
-        <!-- Exam Section -->
-        <section id="exam-section" class="exam-section hidden">
-
-            <!-- Exam Top Bar -->
-            <div class="exam-top">
-
-                <div>
-                    <span class="small-label">Student</span>
-                    <strong id="welcome"></strong>
-                </div>
-
-                <button class="logout-btn" onclick="logout()">
-                    Logout
-                </button>
-
-                <div class="timer-box">
-                    <span>⏱️ Time Left</span>
-                    <strong id="timer">10:00</strong>
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- Progress -->
-            <div class="progress-area">
+    </section>
 
-                <div class="progress-info">
-                    <span id="question-number">
-                        Question 1 of 10
-                    </span>
 
-                    <span id="progress-percent">
-                        0%
-                    </span>
-                </div>
+    <!-- ================= DASHBOARD ================= -->
 
-                <div class="progress-bar">
-                    <div id="progress"></div>
-                </div>
+    <section id="dashboardPage" class="page">
 
+        <header class="top-header">
+
+            <div class="brand">
+                🎓 Online Examination
             </div>
-
-
-            <!-- Question -->
-            <div id="question-container"></div>
-
-
-            <!-- Navigation -->
-            <div class="navigation">
-
-                <button
-                    id="previous-btn"
-                    class="secondary-btn"
-                    onclick="previousQuestion()"
-                >
-                    ← Previous
-                </button>
-
-                <button
-                    id="next-btn"
-                    class="primary-btn"
-                    onclick="nextQuestion()"
-                >
-                    Next →
-                </button>
-
-                <button
-                    id="submit-btn"
-                    class="submit-btn hidden"
-                    onclick="submitExam()"
-                >
-                    Submit Exam ✓
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- Result Section -->
-        <section id="result-section" class="result-card hidden">
-
-            <div id="result-icon" class="result-icon">
-                🏆
-            </div>
-
-            <h1 id="result-title">
-                Examination Completed!
-            </h1>
-
-            <p id="result-message"></p>
-
-
-            <div class="score-circle">
-
-                <span id="final-score">
-                    0
-                </span>
-
-                <small>
-                    / 10
-                </small>
-
-            </div>
-
-
-            <div class="result-details">
-
-                <div>
-                    <strong id="percentage">0%</strong>
-                    <span>Percentage</span>
-                </div>
-
-                <div>
-                    <strong id="correct-count">0</strong>
-                    <span>Correct</span>
-                </div>
-
-                <div>
-                    <strong id="wrong-count">0</strong>
-                    <span>Wrong</span>
-                </div>
-
-            </div>
-
-
-            <div id="answer-review" class="answer-review"></div>
-
 
             <button
-                class="primary-btn restart-btn"
-                onclick="restartExam()"
+                id="logoutButton"
+                class="logout-button"
             >
-                🔄 Take Exam Again
+                Logout
             </button>
 
-        </section>
-
-    </div>
-
-
-    <footer>
-        <p>© 2026 ExamPro • Online Examination System</p>
-    </footer>
-
-
-    <script src="script.js"></script>
-
-</body>
-</html>sheet" href="style.css">
-</head>
-
-<body>
-
-    <div class="app">
-
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                🎓 ExamPro
-            </div>
-
-            <div class="header-title">
-                Online Examination System
-            </div>
         </header>
 
 
-        <!-- Login Section -->
-        <section id="login-section" class="login-card">
+        <main class="dashboard-container">
 
-            <div class="login-icon">📝</div>
-
-            <h1>Welcome to ExamPro</h1>
-
-            <p class="subtitle">
-                Test your knowledge with our online examination.
-            </p>
-
-            <div class="info-box">
+            <div class="welcome-card">
 
                 <div>
-                    <strong>📝 10</strong>
-                    <span>Questions</span>
+
+                    <p class="small-heading">
+                        STUDENT DASHBOARD
+                    </p>
+
+                    <h1>
+                        Welcome,
+                        <span id="dashboardStudent">
+                            Student
+                        </span>
+                        👋
+                    </h1>
+
+                    <p>
+                        You are ready to begin your online examination.
+                    </p>
+
                 </div>
 
-                <div>
-                    <strong>⏱️ 10</strong>
-                    <span>Minutes</span>
-                </div>
-
-                <div>
-                    <strong>🎯 60%</strong>
-                    <span>Pass Mark</span>
-                </div>
-
-            </div>
-
-            <label for="studentName">Student Name</label>
-
-            <input
-                type="text"
-                id="studentName"
-                placeholder="Enter your name"
-                autocomplete="off"
-            >
-
-            <button class="primary-btn" onclick="startExam()">
-                Start Examination →
-            </button>
-
-            <p class="login-note">
-                Please make sure you have a stable connection before starting.
-            </p>
-
-        </section>
-
-
-        <!-- Exam Section -->
-        <section id="exam-section" class="exam-section hidden">
-
-            <!-- Exam Top Bar -->
-            <div class="exam-top">
-
-                <div>
-                    <span class="small-label">Student</span>
-                    <strong id="welcome"></strong>
-                </div>
-
-                <div class="timer-box">
-                    <span>⏱️ Time Left</span>
-                    <strong id="timer">10:00</strong>
+                <div class="student-icon">
+                    👨‍🎓
                 </div>
 
             </div>
 
 
-            <!-- Progress -->
-            <div class="progress-area">
+            <div class="dashboard-grid">
+
+                <div class="info-card">
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h3>Subject</h3>
+
+                    <p>Computer Science Fundamentals</p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="card-icon">
+                        📝
+                    </div>
+
+                    <h3>Questions</h3>
+
+                    <p>10 Multiple Choice Questions</p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="card-icon">
+                        ⏱️
+                    </div>
+
+                    <h3>Duration</h3>
+
+                    <p>5 Minutes</p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="card-icon">
+                        🎯
+                    </div>
+
+                    <h3>Maximum Score</h3>
+
+                    <p>10 Marks</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="instructions-card">
+
+                <h2>📋 Examination Instructions</h2>
+
+                <ul>
+
+                    <li>
+                        The examination contains 10 questions.
+                    </li>
+
+                    <li>
+                        Each question carries 1 mark.
+                    </li>
+
+                    <li>
+                        Total examination duration is 5 minutes.
+                    </li>
+
+                    <li>
+                        The timer starts when you begin the examination.
+                    </li>
+
+                    <li>
+                        The examination is automatically submitted when the timer reaches zero.
+                    </li>
+
+                    <li>
+                        You can navigate between questions using Previous and Next.
+                    </li>
+
+                    <li>
+                        You can submit the examination before the timer expires.
+                    </li>
+
+                    <li>
+                        Your score is calculated immediately after submission.
+                    </li>
+
+                </ul>
+
+                <button
+                    id="startExamButton"
+                    class="primary-button start-button"
+                >
+                    Start Examination →
+                </button>
+
+            </div>
+
+        </main>
+
+    </section>
+
+
+    <!-- ================= EXAM PAGE ================= -->
+
+    <section id="examPage" class="page">
+
+        <header class="exam-header">
+
+            <div class="exam-title">
+
+                <h2>Online Examination</h2>
+
+                <span id="questionCounter">
+                    Question 1 of 10
+                </span>
+
+            </div>
+
+
+            <div class="timer-container">
+
+                <span>⏱️ Time Remaining</span>
+
+                <strong id="timer">
+                    05:00
+                </strong>
+
+            </div>
+
+        </header>
+
+
+        <main class="exam-container">
+
+            <div class="progress-container">
 
                 <div class="progress-info">
-                    <span id="question-number">
-                        Question 1 of 10
-                    </span>
 
-                    <span id="progress-percent">
+                    <span>Exam Progress</span>
+
+                    <span id="progressText">
                         0%
                     </span>
+
                 </div>
 
                 <div class="progress-bar">
-                    <div id="progress"></div>
+
+                    <div
+                        id="progressBar"
+                        class="progress-fill"
+                    ></div>
+
                 </div>
 
             </div>
 
 
-            <!-- Question -->
-            <div id="question-container"></div>
+            <div class="question-card">
+
+                <div class="question-number">
+
+                    Question
+                    <span id="currentQuestionNumber">
+                        1
+                    </span>
+
+                </div>
+
+                <h2 id="questionText">
+                    Question text
+                </h2>
 
 
-            <!-- Navigation -->
-            <div class="navigation">
+                <div
+                    id="optionsContainer"
+                    class="options-container"
+                >
+                </div>
+
+
+                <div class="navigation-buttons">
+
+                    <button
+                        id="previousButton"
+                        class="secondary-button"
+                    >
+                        ← Previous
+                    </button>
+
+                    <button
+                        id="nextButton"
+                        class="primary-button"
+                    >
+                        Next →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="question-navigation">
+
+                <h3>Question Navigation</h3>
+
+                <div
+                    id="questionNumbers"
+                    class="question-numbers"
+                >
+                </div>
+
+            </div>
+
+
+            <div class="submit-container">
 
                 <button
-                    id="previous-btn"
-                    class="secondary-btn"
-                    onclick="previousQuestion()"
+                    id="submitExamButton"
+                    class="submit-button"
                 >
-                    ← Previous
-                </button>
-
-                <button
-                    id="next-btn"
-                    class="primary-btn"
-                    onclick="nextQuestion()"
-                >
-                    Next →
-                </button>
-
-                <button
-                    id="submit-btn"
-                    class="submit-btn hidden"
-                    onclick="submitExam()"
-                >
-                    Submit Exam ✓
+                    Submit Examination
                 </button>
 
             </div>
 
-        </section>
+        </main>
+
+    </section>
 
 
-        <!-- Result Section -->
-        <section id="result-section" class="result-card hidden">
+    <!-- ================= RESULT PAGE ================= -->
 
-            <div id="result-icon" class="result-icon">
-                🏆
-            </div>
+    <section id="resultPage" class="page">
 
-            <h1 id="result-title">
-                Examination Completed!
-            </h1>
+        <div class="result-container">
 
-            <p id="result-message"></p>
+            <div class="result-card">
 
-
-            <div class="score-circle">
-
-                <span id="final-score">
-                    0
-                </span>
-
-                <small>
-                    / 10
-                </small>
-
-            </div>
-
-
-            <div class="result-details">
-
-                <div>
-                    <strong id="percentage">0%</strong>
-                    <span>Percentage</span>
+                <div id="resultIcon" class="result-icon">
+                    🎉
                 </div>
 
-                <div>
-                    <strong id="correct-count">0</strong>
-                    <span>Correct</span>
+                <p class="small-heading">
+                    EXAMINATION COMPLETED
+                </p>
+
+                <h1>
+                    Examination Result
+                </h1>
+
+                <p>
+                    Student:
+                    <strong id="resultStudent">
+                        Student
+                    </strong>
+                </p>
+
+
+                <div class="score-circle">
+
+                    <span id="scoreValue">
+                        0
+                    </span>
+
+                    <small>
+                        / 10
+                    </small>
+
                 </div>
 
-                <div>
-                    <strong id="wrong-count">0</strong>
-                    <span>Wrong</span>
+
+                <h2 id="resultMessage">
+                    Good job!
+                </h2>
+
+
+                <div class="result-details">
+
+                    <div>
+
+                        <span>
+                            Correct Answers
+                        </span>
+
+                        <strong id="correctAnswers">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Wrong Answers
+                        </span>
+
+                        <strong id="wrongAnswers">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Percentage
+                        </span>
+
+                        <strong id="percentage">
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-actions">
+
+                    <button
+                        id="reviewButton"
+                        class="secondary-button"
+                    >
+                        Review Answers
+                    </button>
+
+                    <button
+                        id="restartButton"
+                        class="primary-button"
+                    >
+                        Take Exam Again
+                    </button>
+
                 </div>
 
             </div>
 
+        </div>
 
-            <div id="answer-review" class="answer-review"></div>
+    </section>
 
+
+    <!-- ================= REVIEW PAGE ================= -->
+
+    <section id="reviewPage" class="page">
+
+        <header class="top-header">
+
+            <div class="brand">
+                📊 Examination Review
+            </div>
 
             <button
-                class="primary-btn restart-btn"
-                onclick="restartExam()"
+                id="reviewBackButton"
+                class="logout-button"
             >
-                🔄 Take Exam Again
+                Back to Result
             </button>
 
-        </section>
-
-    </div>
+        </header>
 
 
-    <footer>
-        <p>© 2026 ExamPro • Online Examination System</p>
-    </footer>
+        <main class="review-container">
+
+            <h1>Answer Review</h1>
+
+            <p>
+                Review your answers and compare them with the correct answers.
+            </p>
+
+
+            <div id="reviewContainer">
+            </div>
+
+        </main>
+
+    </section>
 
 
     <script src="script.js"></script>
