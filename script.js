@@ -521,6 +521,7 @@ function restartExam() {
         .textContent = "10:00";
 }
 function showExamResult() {
+
     let score = 8;
     let totalQuestions = 10;
 
