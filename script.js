@@ -520,3 +520,24 @@ function restartExam() {
     document.getElementById("timer")
         .textContent = "10:00";
 }
+function showExamResult() {
+    let score = 8;
+    let totalQuestions = 10;
+
+    let percentage = (score / totalQuestions) * 100;
+
+    let resultMessage;
+
+    if (percentage >= 40) {
+        resultMessage = "Congratulations! You passed the exam.";
+    } else {
+        resultMessage = "You did not pass the exam. Try again.";
+    }
+
+    alert(
+        "Exam Completed!\n" +
+        "Score: " + score + "/" + totalQuestions + "\n" +
+        "Percentage: " + percentage + "%\n" +
+        resultMessage
+    );
+}
